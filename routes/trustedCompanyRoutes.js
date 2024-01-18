@@ -4,7 +4,6 @@ const trustedCompaniesRouter = Router();
 
 
 
-trustedCompaniesRouter.get("/", );
 trustedCompaniesRouter.post("/create", createTrustedCompany);
 trustedCompaniesRouter.get("/getAll", getAllTrustedCompanies);
 trustedCompaniesRouter.get("/:id", getTrustedCompanyById)

@@ -1,6 +1,5 @@
-const express = require('express');
 const { uploadImage, updateImage } = require('../helper/uploadImage');
-const TrustedCompany = require('../models/TrustedCompany');
+const TrustedCompany = require('../models/trustedCompanies');
 
 // Create a new TrustedCompany
 exports.createTrustedCompany = async (req, res) => {

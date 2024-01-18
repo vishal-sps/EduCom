@@ -23,7 +23,7 @@ app.use(fileUpload({
 
 app.use("/user", userRouter);
 app.use("/category", categoryRouter);
-app.use("/trustedCompanies", trustedCompaniesRouter)
+app.use("/trusted_company", trustedCompaniesRouter)
 app.use("/hero", heroBannerRouter)
 
 app.get("/", (req, res)=>{
