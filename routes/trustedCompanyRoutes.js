@@ -1,5 +1,4 @@
 const { Router } = require('express');
-const { chatAI, uploadfiles, listfiles, fineTune, transcribe } = require('../controller/openaiController');
 const { createTrustedCompany, getAllTrustedCompanies, getTrustedCompanyById, updateTrustedCompanyById, deletedTrustedCompanyById } = require('../controller/trustedCampaniesController');
 const trustedCompaniesRouter = Router();
 
