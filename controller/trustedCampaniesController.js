@@ -1,5 +1,5 @@
 const express = require('express');
-const uploadImage = require('../utils/uploadImage'); // Import your uploadImage function
+const { uploadImage, updateImage } = require('../helper/uploadImage');
 const TrustedCompany = require('../models/TrustedCompany');
 
 // Create a new TrustedCompany
@@ -61,18 +61,18 @@ exports.getTrustedCompanyById = async (req, res) => {
 exports.updateTrustedCompanyById = async (req, res) => {
   try {
     const {  company_title, public_id } = req.body;
-    
+
 
     // Upload image and get img_url
     if (req.files?.logo_img) {
-      const { img_url } = await uploadImage(req.files?.logo_img, "trustedCompany");
+      const { img_url } = await updateImage(req.files?.logo_img, public_id);
       
     }
 
     // Find the TrustedCompany by ID and update its fields
     const updatedCompany = await TrustedCompany.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      {company_title},
       { new: true }
     );
 
