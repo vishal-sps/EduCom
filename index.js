@@ -26,6 +26,10 @@ app.use("/category", categoryRouter);
 app.use("/trustedCompanies", trustedCompaniesRouter)
 app.use("/hero", heroBannerRouter)
 
+app.get("/", (req, res)=>{
+  res.send("Hello, Welcome to educom - a learning platform like udemy.")
+})
+
 
 
 
