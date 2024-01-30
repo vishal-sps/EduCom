@@ -11,6 +11,9 @@ const userRouter = require("./routes/userRoutes");
 const categoryRouter = require("./routes/categoryRoutes");
 const heroBannerRouter = require("./routes/heroBannerRoutes");
 const trustedCompaniesRouter = require("./routes/trustedCompanyRoutes");
+const courseRouter = require("./routes/courseRoutes");
+const videoRouter = require("./routes/videoRoutes");
+const commentRouter = require("./routes/commentRoute");
 
 
 dotenv.config();
@@ -25,9 +28,19 @@ app.use("/user", userRouter);
 app.use("/category", categoryRouter);
 app.use("/trusted_company", trustedCompaniesRouter)
 app.use("/hero", heroBannerRouter)
+app.use("/course", courseRouter)
+app.use("/video", videoRouter)
+app.use("/comment", commentRouter)
+
+app.all('*', (req, res, next)=>{
+  res.status(404).json({
+    status:'fail',
+    message: `Can't find the ${req.originalUrl} on server`
+  })
+})
 
 app.get("/", (req, res)=>{
-  res.send("Hello, Welcome to educom - a learning platform like udemy.")
+  res.send("Hello, Welcome to educom api's - a learning platform like udemy.")
 })
 
 

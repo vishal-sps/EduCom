@@ -7,7 +7,7 @@ const heroRouter = Router();
 
 
 heroRouter.get("/getAll",getAllHeroBanner);
-heroRouter.get("/:id",getHeroBannerById);
+heroRouter.get("/getBanner/:id",getHeroBannerById);
 heroRouter.post("/create",verifyToken,isAdmin, createHeroBanner);
 heroRouter.put("/update/:id",verifyToken,isAdmin,updateHeroBannerById);
 heroRouter.delete("/:id", verifyToken,isAdmin,deleteHeroBannerById)

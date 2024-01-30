@@ -19,6 +19,12 @@ const userSchema = new Schema({
     enum: ['student', 'teacher', 'admin'],
     default: 'student', 
   },
+  likes:[{
+    type: mongoose.Schema.Types.ObjectId, ref: "Video"
+  }],
+  dislikes:[{
+    type: mongoose.Schema.Types.ObjectId, ref: "Video"
+  }]
  
 });
 

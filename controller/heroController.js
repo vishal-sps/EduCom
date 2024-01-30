@@ -1,6 +1,6 @@
 const express = require('express');
 const HeroBanner = require('../models/heroBanner');
-const { uploadImage, updateImage } = require('../helper/uploadImage');
+const { uploadImage, updateImage } = require('../helper/upload');
 
 // Create a new HeroBanner
 exports.createHeroBanner = async (req, res) => {
@@ -69,33 +69,27 @@ exports.updateHeroBannerById =  async (req, res) => {
     if(req.files?.img_file){
         await updateImage(req.files?.img_file, public_id)
     }
-
     const updateObj = {
         title,
         description
       };
-  
       // Update link_url if it exists in the request body
       if (link_url) {
         updateObj['link.url'] = link_url;
       }
-  
       // Update link_text if it exists in the request body
       if (link_text) {
         updateObj['link.text'] = link_text;
       }
-  
     // Find the HeroBanner by ID and update its fields
     const updatedBanner = await HeroBanner.findByIdAndUpdate(
       req.params.id,
       updateObj,
       { new: true }
     );
-
     if (!updatedBanner) {
       return res.status(404).json({ message: 'Banner not found.' });
     }
-
     res.status(200).json(updatedBanner);
   } catch (error) {
     console.error(error);
@@ -107,11 +101,9 @@ exports.updateHeroBannerById =  async (req, res) => {
 exports.deleteHeroBannerById = async (req, res) => {
   try {
     const deletedBanner = await HeroBanner.findByIdAndDelete(req.params.id);
-
     if (!deletedBanner) {
       return res.status(404).json({ message: 'Banner not found.' });
     }
-
     res.status(200).json({ message: 'Banner deleted successfully.' });
   } catch (error) {
     console.error(error);

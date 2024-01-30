@@ -1,4 +1,4 @@
-const { uploadImage, updateImage } = require('../helper/uploadImage');
+const { uploadImage, updateImage } = require('../helper/upload');
 const TrustedCompany = require('../models/trustedCompanies');
 
 // Create a new TrustedCompany

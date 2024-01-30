@@ -1,4 +1,4 @@
-const {uploadImage, updateImage}  = require('../helper/uploadImage');
+const {uploadImage, updateImage, deleteImage, deleteAllImage}  = require('../helper/upload');
 const Category = require('../models/category'); // Import your Category model
 
 exports.createCategory = async (req, res) => {
@@ -56,7 +56,6 @@ exports.updateCategoryById = async (req, res) => {
       }
       res.status(200).json(updatedCategory);
     }
-
     
     
   } catch (error) {
@@ -64,12 +63,45 @@ exports.updateCategoryById = async (req, res) => {
   }
 };
 
+exports.updatePosition= async(req,res) =>{
+      try {
+        let {categoryId1, categoryId2 }= req.body
+        const category1 = await Category.findById(categoryId1);
+        const category2 = await Category.findById(categoryId2);
+        
+        const tempPosition1 = category1.position;
+        const tempPosition2 = category2.position;
+
+      category1.position = -1;
+      await category1.save();
+
+      category2.position = tempPosition1;
+      await category2.save();
+
+      category1.position = tempPosition2;
+      await category1.save();
+    
+        return res.status(200).json({ category1, category2 });
+      } catch (error) {
+        // throw error;
+        console.log("error", error);
+        return res.status(500).json({error: error});
+      }
+    }
+
+
+
 exports.deleteCategoryById = async (req, res) => {
   try {
     const deletedCategory = await Category.findByIdAndDelete(req.params.id);
+
+        // Update positions of remaining categories
+      await Category.updateMany({ position: { $gt: deletedCategory?.position } }, { $inc: { position: -1 } });
+
     if (!deletedCategory) {
       return res.status(404).json({ message: 'Category not found' });
     }
+    await deleteImage(deletedCategory.image_public_id);
     res.status(200).json({ message: 'Category deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -80,8 +112,10 @@ exports.deleteAllCategory = async (req, res) => {
   try {
     const deletedCategory = await Category.deleteMany();
     if (!deletedCategory) {
+  
       return res.status(404).json({ message: 'Category not found' });
     }
+   await deleteAllImage('category')
     res.status(200).json({ message: 'Category deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
